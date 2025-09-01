@@ -2,11 +2,65 @@
 
 A modern web platform for teacher education, professional development, and career growth. This application provides a comprehensive solution for educators to enhance their skills, connect with opportunities, and access valuable resources.
 
+## 📋 Membership Plans
+
+### 1. Monthly Membership – ₹999/month
+Designed for teachers who want flexibility and ongoing support without heavy commitment.
+
+**Inclusions:**
+- Access to selected self-paced modules (2–3 new modules/month)
+- 1 live interactive session/month with an expert
+- Access to teacher community forum (peer discussions, Q&A, sharing lesson ideas)
+- Monthly teaching toolkit (downloadable activity ideas, templates, resources)
+
+**🎯 Target Audience:** New teachers, freelance tutors, budget-conscious educators
+**💎 Value Add:** Affordable entry point, "try before committing annually"
+
+### 2. Annual Membership – ₹9,999/year
+Best value plan for consistent learners looking for certification.
+
+**Inclusions:**
+- Full access to all self-paced modules across pedagogy, EdTech, classroom management, NEP 2020, SEL, etc.
+- 12+ live masterclasses (one every month)
+- 1 capstone project (submit a teaching portfolio or lesson innovation idea)
+- Annual Certificate of Completion (recognized by partner institutions)
+- Access to resource library (lesson plan bank, activity kits, assessments)
+- Invitations to free/discounted workshops
+
+**🎯 Target Audience:** Mid-career teachers who want structured professional development and certifications
+**💎 Value Add:** Continuous growth + credibility
+
+### 3. Premium Educator Track – ₹19,999/year
+A career growth package for ambitious teachers aiming for leadership, international exposure, or school transitions.
+
+**Inclusions:**
+- Everything from Annual Membership
+- 1-on-1 mentorship sessions (quarterly with expert coaches)
+- Career services: CV building, interview prep, placement assistance
+- International certification tie-ups (Cambridge/IB/Finland pedagogy micro-credentials)
+- Specialized tracks: Leadership in Education, Inclusive Education, Digital Pedagogy
+- Priority invitations to EduElevate Retreats/Bootcamps
+- Digital Portfolio Showcase for job opportunities
+
+**🎯 Target Audience:** Senior teachers, coordinators, and those aiming for global school placements or promotions
+**💎 Value Add:** Direct career acceleration + international credibility
+
+### 4. Referral Program
+- Earn ₹500 discount credits (or 1 free module) for every peer you bring in
+- Referrals can stack up to 50% off the next membership renewal
+- Leaderboard with rewards for top referrers
+
+### 5. Add-On Services
+- **Pay-per-Course Option**: ₹1,499–₹2,999 for standalone short courses
+- **Teaching Resources Marketplace**: Buy/sell lesson plans, worksheets, PPTs
+- **Micro-Credentials**: ₹3,000–₹5,000 each (short, high-value courses with certification)
+- **Scholarship/EMI Options**: For budget-limited teachers
+
 ## 🚀 Features
 
 - **AI-Powered Counselor**: Get personalized career guidance and teaching advice
 - **Interactive Lead Capture**: Multi-step form to collect teacher information and preferences
-- **Membership Plans**: Subscription-based access to premium content and resources
+- **Membership Plans**: Multiple subscription tiers for different career stages (see below)
 - **Responsive Design**: Fully responsive interface that works on all devices
 - **Dark Mode**: Beautiful dark theme for comfortable viewing
 - **Secure Authentication**: NextAuth.js integration for user authentication
@@ -31,7 +85,7 @@ A modern web platform for teacher education, professional development, and caree
 ### Prerequisites
 
 - Node.js 18.0.0 or later
-- PostgreSQL database
+- PostgreSQL database (local or cloud-hosted)
 - npm or yarn
 
 ### Installation
@@ -67,6 +121,66 @@ A modern web platform for teacher education, professional development, and caree
    ```
 
 6. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## 🖥️ Windows + Apache Deployment
+
+### Prerequisites
+1. Install [XAMPP](https://www.apachefriends.org/download.html) (includes Apache, MySQL, PHP)
+2. Install [Node.js](https://nodejs.org/) for Windows
+3. Install PM2 globally:
+   ```bash
+   npm install -g pm2
+   ```
+
+### Setup Instructions
+
+1. **Configure Apache as Reverse Proxy**
+   - Open `httpd.conf` (usually in `C:\xampp\apache\conf\`)
+   - Uncomment these modules if commented:
+     ```
+     LoadModule proxy_module modules/mod_proxy.so
+     LoadModule proxy_http_module modules/mod_proxy_http.so
+     LoadModule rewrite_module modules/mod_rewrite.so
+     ```
+   - Add at the end of the file:
+     ```apache
+     <VirtualHost *:80>
+         ServerName yourdomain.com
+         ServerAlias www.yourdomain.com
+         
+         ProxyPreserveHost On
+         ProxyPass / http://localhost:3000/
+         ProxyPassReverse / http://localhost:3000/
+         
+         ErrorLog logs/yourdomain.com-error.log
+         CustomLog logs/yourdomain.com-access.log common
+     </VirtualHost>
+     ```
+
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Build the Application**
+   ```bash
+   npm run build
+   ```
+
+4. **Start with PM2**
+   ```bash
+   pm2 start npm --name "teacher-platform" -- start
+   pm2 save
+   pm2 startup
+   ```
+
+5. **Start Apache**
+   - Open XAMPP Control Panel
+   - Start Apache service
+
+### Alternative: Vercel Deployment (Recommended for Production)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdmdm-2025%2Fteachers_education_board)
 
 ## 📦 Project Structure
 
